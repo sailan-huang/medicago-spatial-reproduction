@@ -13,6 +13,10 @@ All downloads are checked against the SHA-256 values in
 [`config/analysis.yaml`](../config/analysis.yaml). The upstream data and
 annotation are not covered by this repository's MIT license.
 
+The Medicago portal currently serves an incomplete TLS certificate chain in some
+CI environments. TLS verification is disabled only for that explicit hostname;
+the downloaded file must still match the pinned SHA-256 digest.
+
 The sample file is an author-processed object. Reproducing analyses from this
 file is not equivalent to repeating FASTQ filtering, genome alignment or
 count-matrix construction.

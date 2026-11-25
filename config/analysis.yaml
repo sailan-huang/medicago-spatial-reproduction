@@ -1,4 +1,6 @@
 data:
+  allow_insecure_tls_hosts:
+    - medicago.toulouse.inrae.fr
   sample_filename: FP200000569BR_C5_bottom4_MXP3.h5ad
   sample_url: https://ftp.cngb.org/pub/SciRAID/stomics/STDS0000401/FP200000569BR_C5_bottom4_MXP3.h5ad
   sample_sha256: e2317b64725cf6032214822dfce9a8debbd6a5e0ecfd4f90f954a3992fd5caac
