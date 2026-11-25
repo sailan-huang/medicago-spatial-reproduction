@@ -1,4 +1,7 @@
 {
+  "generated_at_utc": "2026-11-25T17:03:26.514906+00:00",
+  "git_revision": "b383185",
+  "git_worktree_dirty_at_run": true,
   "paper": {
     "title": "Spatiotemporal co-transcriptomics uncovers coordinated rhizobia-legume stress programs supporting nitrogen fixation in Medicago",
     "doi": "10.1016/j.cell.2026.07.033",
@@ -7,6 +10,17 @@
   },
   "sample": "FP200000569BR_C5_bottom4_MXP3.h5ad",
   "sample_sha256": "e2317b64725cf6032214822dfce9a8debbd6a5e0ecfd4f90f954a3992fd5caac",
+  "annotation_sha256": "7a6a8bfcbcfeb8ce19573cfb93c699f4d50056fc262464a2815cd4dbb6047fb0",
+  "supplementary_sha256": "9a9fd5b6c21d71802d6011139ab8bf7d8df89a6b4c0b356fd1a02e09ca5f004a",
+  "author_reported_sample_metadata": {
+    "Sample/lasso ID": "FP200000569BR_C5_bottom4_MXP3",
+    "Cell Number": 1270,
+    "Mean UMI": 2275.19921259843,
+    "Median UMI": 1739,
+    "Mean Gene": 882.450393700787,
+    "Median Gene": 751
+  },
+  "public_object_bins_minus_table_s13": 14,
   "analysis_parameters": {
     "random_seed": 42,
     "target_sum": 10000,
@@ -19,7 +33,16 @@
     },
     "primary_resolution": "fine",
     "min_plant_counts": 1,
-    "min_plant_cells": 3
+    "min_plant_cells": 3,
+    "normalization_example": {
+      "gene_id": "MtrunA17_Chr5g0427351",
+      "symbol": "MtLb2"
+    },
+    "publication": {
+      "dpi": 300,
+      "spatial_um_per_coordinate": 30,
+      "scale_bar_um": 300
+    }
   },
   "input_dimensions": {
     "bins": 1284,
@@ -35,22 +58,33 @@
     "finite_coordinates": true,
     "missing_tissue_labels": 0,
     "plant_analysis_bins": 1284,
-    "plant_analysis_genes": 19515
+    "plant_analysis_genes": 19515,
+    "n_count_matches_reconstructed": true,
+    "n_feature_matches_reconstructed": true
   },
   "software": {
-    "python": "3.12",
+    "python": "3.12.12",
     "scanpy": "1.12.6",
     "anndata": "0.13.4",
     "pandas": "3.1.1",
-    "numpy": "2.5.5"
+    "numpy": "2.5.5",
+    "scipy": "1.18.1",
+    "scikit_learn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "seaborn": "0.13.2"
   },
   "clustering_metrics": {
     "leiden_coarse_ari_vs_author_tissue": 0.0572143974388406,
     "leiden_coarse_nmi_vs_author_tissue": 0.18951777312433554,
     "leiden_coarse_n_clusters": 3.0,
+    "leiden_coarse_silhouette_pca20": 0.06859162449836731,
+    "leiden_coarse_spatial_neighbor_purity": 0.7841381100726895,
     "leiden_fine_ari_vs_author_tissue": 0.1985457887267897,
     "leiden_fine_nmi_vs_author_tissue": 0.2996041313547133,
     "leiden_fine_n_clusters": 6.0,
+    "leiden_fine_silhouette_pca20": 0.06828755140304565,
+    "leiden_fine_spatial_neighbor_purity": 0.5786604361370716,
+    "author_tissue_spatial_neighbor_purity": 0.5428348909657321,
     "plant_bins_analyzed": 1284.0
   }
 }

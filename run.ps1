@@ -4,6 +4,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$PSNativeCommandUseErrorActionPreference = $true
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $projectRoot
 
@@ -25,4 +26,5 @@ if (-not $SkipNotebook) {
 }
 
 & ".venv\Scripts\python.exe" "scripts\build_report.py"
+& ".venv\Scripts\python.exe" "scripts\validate_results.py"
 

@@ -16,6 +16,7 @@ from pathlib import Path
 import os
 import sys
 
+import pandas as pd
 from IPython.display import Image, Markdown, display
 
 project_root = Path.cwd()
@@ -28,12 +29,17 @@ from analysis.reproduction import (
     Paths,
     add_qc_metrics,
     configure_logging,
+    configure_publication_style,
     load_and_validate,
     load_config,
     load_marker_mapping,
+    load_sample_reference_metadata,
+    load_supplementary_marker_evidence,
     plot_annotation_and_depth,
+    plot_cluster_confusion,
     plot_clustering,
     plot_marker_genes,
+    plot_normalization_contrast,
     plot_qc_overview,
     plot_rhizobia_analysis,
     prepare_plant_analysis,
@@ -46,10 +52,20 @@ from analysis.reproduction import (
 )
 
 configure_logging()
+configure_publication_style()
 paths = Paths()
 config = load_config()
 sample_path, annotation_path = resolve_inputs(config)
 supplementary_path = resolve_supplementary(config)
+sample_reference = load_sample_reference_metadata(
+    supplementary_path,
+    config["data"]["sample_filename"].removesuffix(".h5ad"),
+)
+sample_reference.to_csv(
+    paths.table_dir / "sample_reference.csv",
+    index=False,
+    encoding="utf-8-sig",
+)
 
 display(
     Markdown(
@@ -64,6 +80,8 @@ display(
 """
     )
 )
+display(Markdown("作者补充表 S1-3 报告的同一样本信息："))
+display(sample_reference)
 
 # %% [markdown]
 # ## 1. 输入契约与质量检查
@@ -108,6 +126,15 @@ display(Image(filename=str(paths.figure_dir / "02_annotation_and_depth.png")))
 plant, plant_mask = prepare_plant_analysis(adata, config)
 adata = transfer_analysis_results(adata, plant)
 
+normalization_gene = config["analysis"]["normalization_example"]
+plot_normalization_contrast(
+    plant,
+    normalization_gene["gene_id"],
+    normalization_gene["symbol"],
+    paths.figure_dir / "01b_normalization_contrast.png",
+)
+display(Image(filename=str(paths.figure_dir / "01b_normalization_contrast.png")))
+
 metrics = plot_clustering(
     plant,
     config,
@@ -116,6 +143,25 @@ metrics = plot_clustering(
 )
 display(Image(filename=str(paths.figure_dir / "03_independent_clustering.png")))
 display(Markdown("```json\n" + str(metrics) + "\n```"))
+
+plot_cluster_confusion(
+    plant,
+    config,
+    paths.figure_dir / "03b_cluster_annotation_confusion.png",
+)
+display(
+    Image(
+        filename=str(
+            paths.figure_dir / "03b_cluster_annotation_confusion.png"
+        )
+    )
+)
+display(
+    Markdown(
+        "除 ARI/NMI 外，本流程还计算 PCA 空间中的 silhouette 分数和空间 6-近邻"
+        "同类比例，用于同时评估表达可分性和空间连续性。"
+    )
+)
 
 discovery = rank_region_markers(
     plant,
@@ -132,11 +178,13 @@ display(discovery.groupby("author_region", observed=True).head(5))
 
 # %%
 mapping = load_marker_mapping(annotation_path)
+supplementary_evidence = load_supplementary_marker_evidence(supplementary_path)
 marker_table = resolve_markers(
     config["marker_genes"],
     config["marker_preferred_loci"],
     mapping,
     set(plant.var_names),
+    supplementary_evidence,
 )
 marker_table.to_csv(
     paths.table_dir / "marker_resolution.csv",
@@ -182,9 +230,11 @@ rhizobia_summary = plot_rhizobia_analysis(
     adata,
     paths.figure_dir / "06_rhizobia_fraction.png",
     paths.table_dir / "rhizobia_by_region.csv",
+    paths.table_dir / "rhizobia_statistics.csv",
 )
 display(rhizobia_summary)
 display(Image(filename=str(paths.figure_dir / "06_rhizobia_fraction.png")))
+display(pd.read_csv(paths.table_dir / "rhizobia_statistics.csv"))
 
 # %%
 adata.obs.to_csv(
@@ -196,6 +246,7 @@ write_run_metadata(
     plant,
     metrics,
     config,
+    sample_reference,
     paths.table_dir / "run_metadata.json",
 )
 
@@ -207,5 +258,8 @@ write_run_metadata(
 #   说明作者注释整合了本次单切片之外的证据；不能通过挑选参数追求图形完全一致。
 # - 根瘤菌占比在感染区/交界区较高，在分生区较低。该结果支持“宿主组织分区与细菌信号相关”，
 #   但不能推断因果关系。
+# - 每个 bin 不是独立生物学重复，因此区域统计只作描述性辅助。
+# - 补充表 S1-3 报告 1,270 个 cell/bin，公开矩阵为 1,284 个；本分析保留公开对象
+#   的全部 bin，并在元数据中记录该上游差异。
 # - 论文完整的 20 个切片、Harmony 整合、RNA velocity、Monocle 3、WGCNA 和实验验证不在此范围内。
 

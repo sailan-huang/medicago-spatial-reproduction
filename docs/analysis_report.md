@@ -23,6 +23,9 @@ Monocle 3、WGCNA、CRISPR/RNAi、ROS 染色及固氮表型实验均不在本次
 - 非零计数：**1,179,814**
 - 总计数：**3,088,044**
 - 原始计数层与 `.X` 一致：**True**
+- 原始计数为非负整数：**通过**
+- `nCount_Spatial`、`nFeature_Spatial` 与重算值一致：**通过**
+- 坐标与 `array_row/array_col` 一致：**通过**
 - 基因 ID 唯一、坐标有限、组织标签无缺失：**通过**
 - 植物分析保留 bin：**1,284**
 - 植物分析保留基因：**19,515**
@@ -32,6 +35,12 @@ Monocle 3、WGCNA、CRISPR/RNAi、ROS 染色及固氮表型实验均不在本次
 `42`，所有主要参数记录在
 [`config/analysis.yaml`](../config/analysis.yaml) 和
 [`run_metadata.json`](../results/tables/run_metadata.json)。
+全部图均输出 300 dpi PNG 和可缩放 PDF/SVG。
+
+论文补充表 S1-3 对同一样本报告 **1,270** 个 cell/bin，
+而公开 `.h5ad` 包含 **1,284** 个 bin。本复现保留公开对象中的全部
+1,284 个 bin，不做无法从文件中唯一确定的删除；该 14-bin 差异被视为
+上游处理或版本差异，并记录在 `run_metadata.json`。
 
 ## 结果
 
@@ -39,10 +48,21 @@ Monocle 3、WGCNA、CRISPR/RNAi、ROS 染色及固氮表型实验均不在本次
 
 ![质量检查](../results/figures/01_qc_overview.png)
 
+图 1. P3 切片质量检查。**(A)** 每个 bin 的总计数；**(B)** 检测基因数；
+**(C)** 植物与根瘤菌计数关系；**(D)** 测序深度空间分布；**(E)** 根瘤菌计数占比；
+**(F)** 根瘤菌占比分布。空间图比例尺为 300 µm。
+
 测序深度和组织边界需要同时检查。根瘤菌占比不能被直接解释为细菌数量：
 低深度 bin 的比例方差更大，而且植物与细菌 RNA 的捕获效率不同。
 
 ![作者注释与深度](../results/figures/02_annotation_and_depth.png)
+
+图 2. 作者组织注释和测序深度。颜色在所有空间图中保持一致。
+
+![标准化前后对照](../results/figures/01b_normalization_contrast.png)
+
+图 3. 同一基因 `MtLb2` 的原始计数、标准化表达和逐 bin 关系。该图验证计数标准化
+改善跨 bin 可比性，同时保留主要空间轮廓。
 
 ### 2. 独立聚类
 
@@ -51,15 +71,26 @@ Monocle 3、WGCNA、CRISPR/RNAi、ROS 染色及固氮表型实验均不在本次
 
 ![独立聚类](../results/figures/03_independent_clustering.png)
 
+图 4. 植物表达独立聚类。**(A–B)** 两档分辨率的 UMAP；**(C–E)** 作者标签与独立聚类的空间对照；
+**(F)** 作者组织颜色图例。空间图比例尺为 300 µm。
+
 | 指标 | 分辨率 0.3 | 分辨率 0.8 |
 |---|---:|---:|
 | 聚类数 | 3 | 6 |
 | ARI vs 作者区域 | 0.057 | 0.199 |
 | NMI vs 作者区域 | 0.190 | 0.300 |
+| PCA-20 silhouette | 0.069 | 0.068 |
+| 空间 6-近邻同类比例 | 0.784 | 0.579 |
 
 独立聚类保留了明显的空间分区，但没有复制作者标签。ARI 为 **0.199**、
 NMI 为 **0.300**，说明单切片表达聚类与整合了更多样本和人工证据的区域注释
-只部分一致。这里没有为了追求与原文相似而继续挑选分辨率。
+只部分一致。作者标签自身的空间 6-近邻同类比例为
+**0.543**；两档独立聚类均不低于该值，
+说明结果具有空间连续性。这里没有为了追求与原文相似而继续挑选分辨率。
+
+![聚类与作者标签混淆矩阵](../results/figures/03b_cluster_annotation_confusion.png)
+
+图 5. 作者区域与独立聚类的混淆矩阵。格内数字为 bin 数，颜色为按作者区域行归一化后的比例。
 
 ### 3. 标记基因
 
@@ -73,17 +104,20 @@ NMI 为 **0.300**，说明单切片表达聚类与整合了更多样本和人工
 
 ![标记基因空间表达](../results/figures/05_marker_spatial.png)
 
-| 标记 | 预期区域 | 本切片最高区域 | 是否一致 | 总体检出率 |
-| --- | --- | --- | --- | --- |
-| MtPLT3 | Meristematic zone | Meristematic zone | True | 0.063 |
-| MtPLT4 | Meristematic zone | Meristematic zone | True | 0.023 |
-| MtNOD25 | Proximal infection zone | Distal infection zone | False | 0.927 |
-| MtLb6 | Proximal infection zone | Distal infection zone | False | 0.724 |
-| MtENOD8.1 | Distal infection zone | Distal infection zone | True | 0.604 |
-| MtSymCRK | Interzone | Proximal infection zone | False | 0.224 |
-| MtNCR160 | Nitrogen fixation zone | Distal infection zone | False | 0.212 |
-| MtLP7 | Nitrogen fixation zone | Distal infection zone | False | 0.222 |
-| MtPHO1.1 | Vascular bundle | Vascular bundle | True | 0.003 |
+图 6–8. 论文 Table S1-5 标记在作者区域和独立聚类中的表达，以及逐基因空间分布。
+标记的 locus ID 同时通过 Mt5.0 官方注释核对；比例尺为 300 µm。
+
+| 标记 | 预期区域 | 本切片最高区域 | 区域一致 | 总体检出率 | Table S1-5 证据 |
+| --- | --- | --- | --- | --- | --- |
+| MtPLT3 | Meristematic zone | Meristematic zone | True | 0.036 | True |
+| MtPLT4 | Meristematic zone | Meristematic zone | True | 0.013 | True |
+| MtNOD25 | Proximal infection zone | Distal infection zone | False | 0.917 | True |
+| MtLb6 | Proximal infection zone | Distal infection zone | False | 0.667 | True |
+| MtENOD8.1 | Distal infection zone | Distal infection zone | True | 0.538 | True |
+| MtSymCRK | Interzone | Proximal infection zone | False | 0.174 | True |
+| MtNCR160 | Nitrogen fixation zone | Distal infection zone | False | 0.185 | True |
+| MtLP7 | Nitrogen fixation zone | Distal infection zone | False | 0.192 | True |
+| MtPHO1.1 | Vascular bundle | Vascular bundle | True | 0.006 | True |
 
 分生区中 `MtPLT3` 和 `MtPLT4`、感染区中 `MtNOD25`、`MtLb6` 和 `MtENOD8.1`
 具有清晰表达和空间聚集。`MtSymCRK`、`MtNCR160` 与 `MtLP7` 也呈现区域相关信号，
@@ -135,6 +169,15 @@ NMI 为 **0.300**，说明单切片表达聚类与整合了更多样本和人工
 | Nitrogen fixation zone | 63 | 0.007 | 0.004 | 0.018 | 2685.000 |
 | Proximal infection zone | 81 | 0.020 | 0.010 | 0.029 | 5530.000 |
 | Vascular bundle | 370 | 0.004 | 0.002 | 0.007 | 1507.500 |
+
+图 9. 根瘤菌计数占比的空间分布、深度依赖和组织区域比较。纵轴在 99% 分位处截断显示。
+
+统计检验仅作描述性辅助：
+
+| 检验 | 比较 | n₁ | n₂ | 统计量 | p 值 | 解释边界 |
+| --- | --- | --- | --- | --- | --- | --- |
+| Mann-Whitney U | Nitrogen fixation zone vs all other regions | 63 | 1221 | 48309.500 | 0.000601 | descriptive; spatial bins are not independent biological replicates |
+| Kruskal-Wallis | all author tissue regions | 8 | 1284 | 554.483 | 1.53e-115 | descriptive; spatial bins are not independent biological replicates |
 
 本切片中根瘤菌占比最高的区域中位数为：
 

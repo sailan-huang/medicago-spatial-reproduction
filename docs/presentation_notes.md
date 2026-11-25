@@ -35,9 +35,13 @@
 - 2,000 HVG、20 PCs、15 neighbours、固定随机种子 42。
 - 分辨率 0.3 得到 3 个簇，分辨率 0.8 得到 6 个簇。
 - 0.8 分辨率的 ARI = 0.199、NMI = 0.300。
+- 两档聚类的 PCA silhouette 均约 0.068；空间 6-近邻同类比例分别为 0.784 和 0.579。
 - 空间结构清晰，但不复制作者标签；作者注释使用完整多切片和人工证据。
 
-建议配图：`results/figures/03_independent_clustering.png`。
+建议配图：
+
+- `results/figures/03_independent_clustering.png`
+- `results/figures/03b_cluster_annotation_confusion.png`
 
 ### 4. 标记基因
 
@@ -45,6 +49,7 @@
 - `MtPLT3/MtPLT4` 富集于分生区。
 - `MtNOD25/MtLb6/MtENOD8.1` 在感染区有清晰空间信号。
 - 4/9 个标记在本 P3 切片中的最高区域与跨阶段预期完全一致。
+- 9/9 个标记都能在 Table S1-5 和 Mt5.0 官方注释中完成双重核对。
 - 部分不一致说明单切片区域边界、相邻组织标签和跨阶段注释需要谨慎对待。
 
 建议配图：
@@ -59,6 +64,7 @@
   Proximal infection zone。
 - 固氮区中位占比低于感染区；这与论文跨阶段趋势不完全相同。
 - 比例受测序深度、RNA 组成和捕获效率影响，不是细菌数量或固氮效率。
+- 区域统计检验仅作描述性辅助，空间 bin 不是独立生物学重复。
 
 建议配图：`results/figures/06_rhizobia_fraction.png`。
 

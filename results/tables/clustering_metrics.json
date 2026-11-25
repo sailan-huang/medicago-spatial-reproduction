@@ -2,8 +2,13 @@
   "leiden_coarse_ari_vs_author_tissue": 0.0572143974388406,
   "leiden_coarse_nmi_vs_author_tissue": 0.18951777312433554,
   "leiden_coarse_n_clusters": 3.0,
+  "leiden_coarse_silhouette_pca20": 0.06859162449836731,
+  "leiden_coarse_spatial_neighbor_purity": 0.7841381100726895,
   "leiden_fine_ari_vs_author_tissue": 0.1985457887267897,
   "leiden_fine_nmi_vs_author_tissue": 0.2996041313547133,
   "leiden_fine_n_clusters": 6.0,
+  "leiden_fine_silhouette_pca20": 0.06828755140304565,
+  "leiden_fine_spatial_neighbor_purity": 0.5786604361370716,
+  "author_tissue_spatial_neighbor_purity": 0.5428348909657321,
   "plant_bins_analyzed": 1284.0
 }

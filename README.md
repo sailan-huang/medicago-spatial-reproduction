@@ -10,16 +10,18 @@
 [公开数据](https://db.cngb.org/stomics/stamrn/download/) ·
 [作者代码](https://github.com/XiangSH111/Legume_Spatial_Atlas) ·
 [完整复现报告](docs/analysis_report.md) ·
+[质量审查记录](docs/quality_audit.md) ·
 [Notebook HTML 预览](docs/reproduction_notebook.html)
 
 ## 已完成内容
 
 - 读取并校验 `FP200000569BR_C5_bottom4_MXP3.h5ad`：1,284 个空间 bin、40,160 个基因。
 - 重建每个 bin 的总计数、检测基因数、植物计数、根瘤菌计数和根瘤菌占比。
+- 用同一基因展示原始计数与标准化表达，明确标准化对空间解释的影响。
 - 仅使用植物基因独立完成 HVG、PCA、邻居图、UMAP 和两档 Leiden 聚类。
 - 从论文 Table S1-5 和 Mt5.0 官方注释解析区域标记，输出点图和空间图。
-- 比较独立聚类与作者组织分区，并保留未通过“完全一致”标准的真实指标。
-- 输出 7 张核心图、7 张派生表、可执行 Notebook、报告和输入契约测试。
+- 比较独立聚类与作者组织分区，输出混淆矩阵、轮廓系数和空间邻域一致性。
+- 输出 9 组核心图（300 dpi PNG + PDF/SVG）、派生表、可执行 Notebook、报告和测试。
 
 ## 主要结果
 
@@ -29,6 +31,7 @@
 | 空间 bin | 1,284 |
 | 植物 / 根瘤菌基因 | 34,349 / 5,811 |
 | 独立分辨率 0.8 | 6 个簇，ARI 0.199、NMI 0.300（对照作者区域） |
+| 方法质量指标 | PCA 轮廓系数、空间 6-近邻同类比例 |
 | 标记验证 | 9 个可检测标记，其中 4 个的最高区域与 Table S1-5 预期一致 |
 | 根瘤菌占比 | 感染区和交界区较高，固氮区低于感染区 |
 
@@ -67,7 +70,7 @@ data/                     公开数据说明；原始文件不入 Git
 notebooks/                 Notebook 源码与执行后的 .ipynb
 results/figures/           核心结果图
 results/tables/            bin 级结果、聚类指标、标记与区域汇总量
-scripts/                  下载与报告生成脚本
+scripts/                  下载、报告生成与结果验证脚本
 tests/                    输入契约和数据守恒测试
 docs/analysis_report.md   完整方法、结果、对照与局限
 ```
@@ -77,6 +80,9 @@ docs/analysis_report.md   完整方法、结果、对照与局限
 本仓库复现的是**单样本局部计算**。原始测序处理、完整 20 个切片整合、RNA velocity、
 Monocle 3、WGCNA，以及论文中的 CRISPR、RNAi、ROS、EMSA、双荧光素酶和固氮表型实验
 均不在范围内。
+
+论文补充表 S1-3 对同一样本报告 1,270 个 cell/bin，而公开 `.h5ad` 为 1,284 个 bin。
+本复现保留公开对象的 1,284 个 bin，并在 `run_metadata.json` 中记录该上游差异。
 
 数据与第三方注释不随仓库分发，遵循各自上游条款。仓库代码采用 MIT License。
 

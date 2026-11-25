@@ -23,6 +23,13 @@ analysis:
   primary_resolution: fine
   min_plant_counts: 1
   min_plant_cells: 3
+  normalization_example:
+    gene_id: MtrunA17_Chr5g0427351
+    symbol: MtLb2
+  publication:
+    dpi: 300
+    spatial_um_per_coordinate: 30
+    scale_bar_um: 300
 
 marker_genes:
   meristematic_zone:

@@ -1,10 +1,10 @@
-﻿zone,requested_acronym,resolved_gene_id,matched_acronym,description,available_in_sample
-meristematic_zone,MtPLT3,MtrunA17Chr5g0412151,MtPLT3,plethora ERF,True
-meristematic_zone,MtPLT4,MtrunA17Chr7g0249621,MtPLT4|MtBBM,plethora ERF|BABYBOOM,True
-proximal_infection_zone,MtNOD25,MtrunA17Chr3g0100391,MtNOD25|MtN22,nodulin 25|Mtnodulin-22 (CAA75576),True
-proximal_infection_zone,MtLb6,MtrunA17Chr5g0435621,MtLb6|MtLb8, leghemoglobin6,True
-distal_infection_zone,MtENOD8.1,MtrunA17Chr1g0160031,MtENOD8.1,early nodulin 8|AAC26810,True
-interzone,MtSymCRK,MtrunA17Chr3g0119041,MtSymCRK,symbiotic cys-rich receptor-like kinase,True
-nitrogen_fixation_zone,MtNCR160,MtrunA17Chr2g0309591,MtNCR160,Nodule-specific Cysteine-Rich peptide,True
-nitrogen_fixation_zone,MtLP7,MtrunA17Chr7g0236321,MtLP7,LEED..PEED family,True
-vascular_bundle,MtPHO1.1,MtrunA17Chr1g0166651,MtPHO1.1,Phosphate transporter1.1 (export),True
+﻿zone,requested_acronym,resolved_gene_id,matched_acronym,description,available_in_sample,supplementary_evidence_match,supplementary_annotation
+meristematic_zone,MtPLT3,MtrunA17Chr5g0412151,MtPLT3,plethora ERF,True,True,plethora ERF
+meristematic_zone,MtPLT4,MtrunA17Chr7g0249621,MtPLT4|MtBBM,plethora ERF|BABYBOOM,True,True,"plethora ERF, BABYBOOM"
+proximal_infection_zone,MtNOD25,MtrunA17Chr3g0100391,MtNOD25|MtN22,nodulin 25|Mtnodulin-22 (CAA75576),True,True,"nodulin 25, Mtnodulin-22"
+proximal_infection_zone,MtLb6,MtrunA17Chr5g0435621,MtLb6|MtLb8, leghemoglobin6,True,True,"new nomenclature, leghemoglobin6"
+distal_infection_zone,MtENOD8.1,MtrunA17Chr1g0160031,MtENOD8.1,early nodulin 8|AAC26810,True,True,early nodulin
+interzone,MtSymCRK,MtrunA17Chr3g0119041,MtSymCRK,symbiotic cys-rich receptor-like kinase,True,True,symbiotic cys-rich receptor-like kinase
+nitrogen_fixation_zone,MtNCR160,MtrunA17Chr2g0309591,MtNCR160,Nodule-specific Cysteine-Rich peptide,True,True,Nodule-specific Cysteine-Rich peptide
+nitrogen_fixation_zone,MtLP7,MtrunA17Chr7g0236321,MtLP7,LEED..PEED family,True,True,LEED..PEED family
+vascular_bundle,MtPHO1.1,MtrunA17Chr1g0166651,MtPHO1.1,Phosphate transporter1.1 (export),True,True,Phosphate transporter1.1

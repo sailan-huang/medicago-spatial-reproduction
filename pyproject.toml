@@ -34,6 +34,10 @@ dependencies = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+filterwarnings = [
+  "ignore:.*was written without encoding metadata.*:anndata.OldFormatWarning",
+  "ignore::pandas.errors.Pandas4Warning",
+]
 
 [tool.setuptools]
 packages = ["analysis"]

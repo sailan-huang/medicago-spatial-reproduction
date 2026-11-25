@@ -8,8 +8,10 @@ from analysis.reproduction import (
     load_and_validate,
     load_config,
     load_marker_mapping,
-    resolve_markers,
+    load_sample_reference_metadata,
+    load_supplementary_marker_evidence,
     resolve_inputs,
+    resolve_markers,
     resolve_supplementary,
 )
 
@@ -25,6 +27,11 @@ def test_public_sample_contract() -> None:
     assert (adata.var["species"] == "Sinorhizobium").sum() == 5811
     assert float(adata.X.sum()) == 3088044.0
     assert np.isfinite(np.asarray(adata.obsm["spatial"])).all()
+    assert np.allclose(adata.X.data, np.round(adata.X.data))
+    assert np.allclose(
+        adata.obsm["spatial"][:, 0],
+        adata.obs["array_row"].to_numpy(),
+    )
 
 
 def test_qc_reconstruction_adds_up() -> None:
@@ -49,17 +56,38 @@ def test_marker_annotation_hashes() -> None:
 def test_selected_markers_resolve_uniquely() -> None:
     config = load_config()
     sample_path, annotation_path = resolve_inputs(config)
+    supplementary_path = resolve_supplementary(config)
     adata = load_and_validate(sample_path)
     marker_table = resolve_markers(
         config["marker_genes"],
         config["marker_preferred_loci"],
         load_marker_mapping(annotation_path),
         set(adata.var_names),
+        load_supplementary_marker_evidence(supplementary_path),
     )
     available = marker_table[
         marker_table["available_in_sample"].astype(str).str.lower() == "true"
     ]
     assert len(available) == 9
     assert available["resolved_gene_id"].is_unique
+    assert available["supplementary_evidence_match"].all()
 
 
+def test_normalization_example_is_present() -> None:
+    config = load_config()
+    sample_path, _ = resolve_inputs(config)
+    adata = load_and_validate(sample_path)
+    gene_id = config["analysis"]["normalization_example"]["gene_id"].replace("_", "")
+    assert gene_id in adata.var_names
+    assert adata[:, gene_id].X.nnz > 0.8 * adata.n_obs
+
+
+def test_author_sample_metadata_is_pinned() -> None:
+    config = load_config()
+    supplementary_path = resolve_supplementary(config)
+    reference = load_sample_reference_metadata(
+        supplementary_path,
+        config["data"]["sample_filename"].removesuffix(".h5ad"),
+    )
+    assert int(reference.iloc[0]["Cell Number"]) == 1270
+    assert np.isclose(float(reference.iloc[0]["Median UMI"]), 1739)

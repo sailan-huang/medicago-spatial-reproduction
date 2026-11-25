@@ -1,10 +1,10 @@
-﻿zone,acronym,gene_id,best_author_region,mean_expression_best_region,detection_fraction_best_region,detection_fraction_overall,expected_region,matches_expected_region
-meristematic_zone,MtPLT3,MtrunA17Chr5g0412151,Meristematic zone,0.5360417331143623,0.3170731707317073,0.06303365703257859,Meristematic zone,True
-meristematic_zone,MtPLT4,MtrunA17Chr7g0249621,Meristematic zone,0.17473817444624035,0.12195121951219512,0.023362334017600895,Meristematic zone,True
-proximal_infection_zone,MtNOD25,MtrunA17Chr3g0100391,Distal infection zone,4.746180483537331,0.9936708860759493,0.9269598227093139,Proximal infection zone,False
-proximal_infection_zone,MtLb6,MtrunA17Chr5g0435621,Distal infection zone,3.5212130499902314,0.9620253164556962,0.7237206883568504,Proximal infection zone,False
-distal_infection_zone,MtENOD8.1,MtrunA17Chr1g0160031,Distal infection zone,3.162200209963396,0.9367088607594937,0.6040081283571004,Distal infection zone,True
-interzone,MtSymCRK,MtrunA17Chr3g0119041,Proximal infection zone,0.9445406990111851,0.5679012345679012,0.2237465122157572,Interzone,False
-nitrogen_fixation_zone,MtNCR160,MtrunA17Chr2g0309591,Distal infection zone,1.013210688706767,0.43670886075949367,0.21162040694711,Nitrogen fixation zone,False
-nitrogen_fixation_zone,MtLP7,MtrunA17Chr7g0236321,Distal infection zone,1.3825023044733744,0.5506329113924051,0.22165903906332027,Nitrogen fixation zone,False
-vascular_bundle,MtPHO1.1,MtrunA17Chr1g0166651,Vascular bundle,0.024862797380685517,0.010810810810810811,0.0031615123309881154,Vascular bundle,True
+﻿zone,acronym,gene_id,best_author_region,mean_expression_best_region,expected_region_mean_expression,other_regions_mean_expression,expected_region_specificity_log2fc,detection_fraction_best_region,detection_fraction_overall,supplementary_evidence_match,expected_region,matches_expected_region
+meristematic_zone,MtPLT3,MtrunA17Chr5g0412151,Meristematic zone,0.5360417331143623,0.5360417331143623,0.052561350753563774,3.3502463122715294,0.3170731707317073,0.03582554517133956,True,Meristematic zone,True
+meristematic_zone,MtPLT4,MtrunA17Chr7g0249621,Meristematic zone,0.17473817444624035,0.17473817444624035,0.014358881427246421,3.6050873379307755,0.12195121951219512,0.0132398753894081,True,Meristematic zone,True
+proximal_infection_zone,MtNOD25,MtrunA17Chr3g0100391,Distal infection zone,4.746180483537331,4.457518413366055,3.3453033386322644,0.4141036152489076,0.9936708860759493,0.9174454828660437,True,Proximal infection zone,False
+proximal_infection_zone,MtLb6,MtrunA17Chr5g0435621,Distal infection zone,3.5212130499902314,2.4244970060961606,1.9951032684288434,0.2812219205087582,0.9620253164556962,0.6666666666666666,True,Proximal infection zone,False
+distal_infection_zone,MtENOD8.1,MtrunA17Chr1g0160031,Distal infection zone,3.162200209963396,3.162200209963396,1.4158164427963555,1.159293914312566,0.9367088607594937,0.5381619937694704,True,Distal infection zone,True
+interzone,MtSymCRK,MtrunA17Chr3g0119041,Proximal infection zone,0.9445406990111851,0.435030003101866,0.4292766618125928,0.019207118666481462,0.5679012345679012,0.17445482866043613,True,Interzone,False
+nitrogen_fixation_zone,MtNCR160,MtrunA17Chr2g0309591,Distal infection zone,1.013210688706767,0.7246749971320572,0.43202835074130874,0.7462067819024276,0.43670886075949367,0.18457943925233644,True,Nitrogen fixation zone,False
+nitrogen_fixation_zone,MtLP7,MtrunA17Chr7g0236321,Distal infection zone,1.3825023044733744,0.5722341966002232,0.488179723181523,0.22919290809466536,0.5506329113924051,0.1923676012461059,True,Nitrogen fixation zone,False
+vascular_bundle,MtPHO1.1,MtrunA17Chr1g0166651,Vascular bundle,0.024862797380685517,0.024862797380685517,0.0037410082407655057,2.732162011296684,0.010810810810810811,0.006230529595015576,True,Vascular bundle,True
