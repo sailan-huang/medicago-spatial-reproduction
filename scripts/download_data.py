@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import hashlib
 import sys
-import urllib.request
 from pathlib import Path
 
+import requests
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,7 +25,17 @@ def download(url: str, destination: Path, expected_sha256: str) -> None:
         return
     temporary = destination.with_suffix(destination.suffix + ".part")
     print(f"Downloading {url}")
-    urllib.request.urlretrieve(url, temporary)
+    with requests.get(
+        url,
+        stream=True,
+        timeout=(30, 180),
+        headers={"User-Agent": "medicago-spatial-reproduction/0.1"},
+    ) as response:
+        response.raise_for_status()
+        with temporary.open("wb") as handle:
+            for chunk in response.iter_content(chunk_size=1024 * 1024):
+                if chunk:
+                    handle.write(chunk)
     observed = sha256(temporary)
     if observed != expected_sha256.lower():
         temporary.unlink(missing_ok=True)
