@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import sys
+import time
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -37,21 +38,43 @@ def download(
             "WARNING: TLS verification disabled for a known endpoint; "
             "the downloaded file will still be checked against SHA-256."
         )
-    with requests.get(
-        url,
-        stream=True,
-        timeout=(30, 180),
-        headers={"User-Agent": "medicago-spatial-reproduction/0.1"},
-        verify=verify_tls,
-    ) as response:
-        response.raise_for_status()
-        with temporary.open("wb") as handle:
-            for chunk in response.iter_content(chunk_size=1024 * 1024):
-                if chunk:
-                    handle.write(chunk)
-    observed = sha256(temporary)
+    last_error: Exception | None = None
+    for attempt in range(1, 7):
+        offset = temporary.stat().st_size if temporary.exists() else 0
+        headers = {"User-Agent": "medicago-spatial-reproduction/0.1"}
+        if offset:
+            headers["Range"] = f"bytes={offset}-"
+            print(f"Resuming at {offset:,} bytes (attempt {attempt}/6)")
+        try:
+            with requests.get(
+                url,
+                stream=True,
+                timeout=(30, 180),
+                headers=headers,
+                verify=verify_tls,
+            ) as response:
+                if offset and response.status_code == 416:
+                    break
+                response.raise_for_status()
+                mode = "ab" if offset and response.status_code == 206 else "wb"
+                with temporary.open(mode) as handle:
+                    for chunk in response.iter_content(chunk_size=1024 * 1024):
+                        if chunk:
+                            handle.write(chunk)
+        except (requests.RequestException, OSError) as error:
+            last_error = error
+            print(f"Download interrupted: {error}")
+            time.sleep(min(30, attempt * 3))
+            continue
+        if temporary.exists() and sha256(temporary) == expected_sha256.lower():
+            break
+        last_error = RuntimeError("Downloaded file does not match the pinned digest")
+        time.sleep(min(30, attempt * 3))
+    else:
+        raise RuntimeError(f"Could not download {url}") from last_error
+
+    observed = sha256(temporary) if temporary.exists() else ""
     if observed != expected_sha256.lower():
-        temporary.unlink(missing_ok=True)
         raise RuntimeError(
             f"Checksum mismatch for {destination.name}: expected "
             f"{expected_sha256}, observed {observed}"
