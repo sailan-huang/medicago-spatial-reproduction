@@ -1,0 +1,53 @@
+data:
+  sample_filename: FP200000569BR_C5_bottom4_MXP3.h5ad
+  sample_url: https://ftp.cngb.org/pub/SciRAID/stomics/STDS0000401/FP200000569BR_C5_bottom4_MXP3.h5ad
+  sample_sha256: e2317b64725cf6032214822dfce9a8debbd6a5e0ecfd4f90f954a3992fd5caac
+  annotation_filename: Mt_gene_Acronyms_IDs_latest.xlsx
+  annotation_url: https://medicago.toulouse.inrae.fr/MtrunA17r5.0-ANR/downloads/current/Mt_gene_Acronyms_IDs_latest.xlsx
+  annotation_sha256: 7a6a8bfcbcfeb8ce19573cfb93c699f4d50056fc262464a2815cd4dbb6047fb0
+  supplementary_filename: cell2026_mmc2.xlsx
+  supplementary_url: https://ars.els-cdn.com/content/image/1-s2.0-S0092867426008652-mmc2.xlsx
+  supplementary_sha256: 9a9fd5b6c21d71802d6011139ab8bf7d8df89a6b4c0b356fd1a02e09ca5f004a
+
+analysis:
+  random_seed: 42
+  target_sum: 10000
+  n_top_genes: 2000
+  n_pcs: 20
+  n_neighbors: 15
+  resolutions:
+    coarse: 0.3
+    fine: 0.8
+  primary_resolution: fine
+  min_plant_counts: 1
+  min_plant_cells: 3
+
+marker_genes:
+  meristematic_zone:
+    - MtPLT3
+    - MtPLT4
+  proximal_infection_zone:
+    - MtNOD25
+    - MtLb6
+  distal_infection_zone:
+    - MtENOD8.1
+  interzone:
+    - MtSymCRK
+  nitrogen_fixation_zone:
+    - MtNCR160
+    - MtLP7
+  vascular_bundle:
+    - MtPHO1.1
+
+marker_preferred_loci:
+  MtPLT1: MtrunA17_Chr2g0328971
+  MtPLT3: MtrunA17_Chr5g0412151
+  MtPLT4: MtrunA17_Chr7g0249621
+  MtNOD25: MtrunA17_Chr3g0100391
+  MtENOD8.1: MtrunA17_Chr1g0160031
+  MtLb6: MtrunA17_Chr5g0435621
+  MtSymCRK: MtrunA17_Chr3g0119041
+  MtNCR160: MtrunA17_Chr2g0309591
+  MtLP7: MtrunA17_Chr7g0236321
+  MtPHO1.1: MtrunA17_Chr1g0166651
+

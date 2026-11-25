@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you reuse this computational reproduction, cite the source paper and this repository."
+title: "Medicago nodule spatial transcriptomics: single-section reproduction"
+type: software
+authors:
+  - family-names: "Huang"
+    given-names: "Sailan"
+version: "0.1.0"
+date-released: "2026-11-25"
+references:
+  - type: article
+    title: "Spatiotemporal co-transcriptomics uncovers coordinated rhizobia-legume stress programs supporting nitrogen fixation in Medicago"
+    authors:
+      - family-names: "Shao"
+        given-names: "Wenwen"
+    journal: "Cell"
+    year: 2026
+    doi: "10.1016/j.cell.2026.07.033"
+

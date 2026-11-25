@@ -1,0 +1,9 @@
+{
+  "leiden_coarse_ari_vs_author_tissue": 0.0572143974388406,
+  "leiden_coarse_nmi_vs_author_tissue": 0.18951777312433554,
+  "leiden_coarse_n_clusters": 3.0,
+  "leiden_fine_ari_vs_author_tissue": 0.1985457887267897,
+  "leiden_fine_nmi_vs_author_tissue": 0.2996041313547133,
+  "leiden_fine_n_clusters": 6.0,
+  "plant_bins_analyzed": 1284.0
+}

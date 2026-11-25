@@ -1,0 +1,56 @@
+{
+  "paper": {
+    "title": "Spatiotemporal co-transcriptomics uncovers coordinated rhizobia-legume stress programs supporting nitrogen fixation in Medicago",
+    "doi": "10.1016/j.cell.2026.07.033",
+    "journal": "Cell",
+    "year": 2026
+  },
+  "sample": "FP200000569BR_C5_bottom4_MXP3.h5ad",
+  "sample_sha256": "e2317b64725cf6032214822dfce9a8debbd6a5e0ecfd4f90f954a3992fd5caac",
+  "analysis_parameters": {
+    "random_seed": 42,
+    "target_sum": 10000,
+    "n_top_genes": 2000,
+    "n_pcs": 20,
+    "n_neighbors": 15,
+    "resolutions": {
+      "coarse": 0.3,
+      "fine": 0.8
+    },
+    "primary_resolution": "fine",
+    "min_plant_counts": 1,
+    "min_plant_cells": 3
+  },
+  "input_dimensions": {
+    "bins": 1284,
+    "genes": 40160,
+    "plant_genes": 34349,
+    "rhizobia_genes": 5811,
+    "nonzeros": 1179814,
+    "total_counts": 3088044.0
+  },
+  "integrity_checks": {
+    "X_equals_counts": true,
+    "unique_gene_ids": true,
+    "finite_coordinates": true,
+    "missing_tissue_labels": 0,
+    "plant_analysis_bins": 1284,
+    "plant_analysis_genes": 19515
+  },
+  "software": {
+    "python": "3.12",
+    "scanpy": "1.12.6",
+    "anndata": "0.13.4",
+    "pandas": "3.1.1",
+    "numpy": "2.5.5"
+  },
+  "clustering_metrics": {
+    "leiden_coarse_ari_vs_author_tissue": 0.0572143974388406,
+    "leiden_coarse_nmi_vs_author_tissue": 0.18951777312433554,
+    "leiden_coarse_n_clusters": 3.0,
+    "leiden_fine_ari_vs_author_tissue": 0.1985457887267897,
+    "leiden_fine_nmi_vs_author_tissue": 0.2996041313547133,
+    "leiden_fine_n_clusters": 6.0,
+    "plant_bins_analyzed": 1284.0
+  }
+}

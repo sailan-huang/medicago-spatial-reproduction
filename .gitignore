@@ -1,0 +1,22 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+*.pyc
+*.egg-info/
+
+# Public data and third-party annotation are downloaded locally and not redistributed.
+data/raw/*
+data/external/*
+!data/raw/.gitkeep
+!data/external/.gitkeep
+
+# Intermediate objects are reproducible from the notebook.
+results/intermediate/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
