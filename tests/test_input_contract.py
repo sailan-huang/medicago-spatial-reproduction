@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import matplotlib.pyplot as plt
 import numpy as np
 
 from analysis.reproduction import (
@@ -13,6 +14,7 @@ from analysis.reproduction import (
     resolve_inputs,
     resolve_markers,
     resolve_supplementary,
+    save_figure,
 )
 
 
@@ -91,3 +93,11 @@ def test_author_sample_metadata_is_pinned() -> None:
     )
     assert int(reference.iloc[0]["Cell Number"]) == 1270
     assert np.isclose(float(reference.iloc[0]["Median UMI"]), 1739)
+
+
+def test_figure_writer_emits_pdf_only(tmp_path) -> None:
+    fig, ax = plt.subplots(figsize=(2, 1))
+    ax.plot([0, 1], [0, 1])
+    save_figure(fig, tmp_path / "test_figure.png")
+    plt.close(fig)
+    assert [path.suffix for path in tmp_path.iterdir()] == [".pdf"]

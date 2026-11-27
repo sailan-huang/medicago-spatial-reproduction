@@ -35,7 +35,7 @@ Monocle 3、WGCNA、CRISPR/RNAi、ROS 染色及固氮表型实验均不在本次
 `42`，所有主要参数记录在
 [`config/analysis.yaml`](../config/analysis.yaml) 和
 [`run_metadata.json`](../results/tables/run_metadata.json)。
-全部图均输出 300 dpi PNG 和可缩放 PDF/SVG。
+全部正式结果图仅输出矢量 PDF；Word 报告中的预览图由 PDF 临时渲染，不进入结果目录。
 
 论文补充表 S1-3 对同一样本报告 **1,270** 个 cell/bin，
 而公开 `.h5ad` 包含 **1,284** 个 bin。本复现保留公开对象中的全部
@@ -46,7 +46,7 @@ Monocle 3、WGCNA、CRISPR/RNAi、ROS 染色及固氮表型实验均不在本次
 
 ### 1. 质量检查与标准化
 
-![质量检查](../results/figures/01_qc_overview.png)
+[图 1：质量检查 PDF](../results/figures/01_qc_overview.pdf)
 
 图 1. P3 切片质量检查。**(A)** 每个 bin 的总计数；**(B)** 检测基因数；
 **(C)** 植物与根瘤菌计数关系；**(D)** 测序深度空间分布；**(E)** 根瘤菌计数占比；
@@ -55,11 +55,11 @@ Monocle 3、WGCNA、CRISPR/RNAi、ROS 染色及固氮表型实验均不在本次
 测序深度和组织边界需要同时检查。根瘤菌占比不能被直接解释为细菌数量：
 低深度 bin 的比例方差更大，而且植物与细菌 RNA 的捕获效率不同。
 
-![作者注释与深度](../results/figures/02_annotation_and_depth.png)
+[图 2：作者注释与深度 PDF](../results/figures/02_annotation_and_depth.pdf)
 
 图 2. 作者组织注释和测序深度。颜色在所有空间图中保持一致。
 
-![标准化前后对照](../results/figures/01b_normalization_contrast.png)
+[图 3：标准化前后对照 PDF](../results/figures/01b_normalization_contrast.pdf)
 
 图 3. 同一基因 `MtLb2` 的原始计数、标准化表达和逐 bin 关系。该图验证计数标准化
 改善跨 bin 可比性，同时保留主要空间轮廓。
@@ -69,7 +69,7 @@ Monocle 3、WGCNA、CRISPR/RNAi、ROS 染色及固氮表型实验均不在本次
 仅使用植物原始计数，过滤后以 10,000 counts/bin 标准化并执行 `log1p`。使用 2,000 个高变基因、
 20 个主成分、15 个邻居，比较 Leiden 分辨率 0.3 与 0.8。
 
-![独立聚类](../results/figures/03_independent_clustering.png)
+[图 4：独立聚类 PDF](../results/figures/03_independent_clustering.pdf)
 
 图 4. 植物表达独立聚类。**(A–B)** 两档分辨率的 UMAP；**(C–E)** 作者标签与独立聚类的空间对照；
 **(F)** 作者组织颜色图例。空间图比例尺为 300 µm。
@@ -88,7 +88,7 @@ NMI 为 **0.300**，说明单切片表达聚类与整合了更多样本和人工
 **0.543**；两档独立聚类均不低于该值，
 说明结果具有空间连续性。这里没有为了追求与原文相似而继续挑选分辨率。
 
-![聚类与作者标签混淆矩阵](../results/figures/03b_cluster_annotation_confusion.png)
+[图 5：聚类与作者标签混淆矩阵 PDF](../results/figures/03b_cluster_annotation_confusion.pdf)
 
 图 5. 作者区域与独立聚类的混淆矩阵。格内数字为 bin 数，颜色为按作者区域行归一化后的比例。
 
@@ -98,11 +98,11 @@ NMI 为 **0.300**，说明单切片表达聚类与整合了更多样本和人工
 共解析 **9** 个可检测标记，其中 **4** 个在本 P3 切片中
 的最高平均表达区域与其在完整论文图谱中的预期区域一致。
 
-![标记基因点图](../results/figures/04_marker_dotplots.png)
+[图 6：标记基因点图 PDF](../results/figures/04_marker_dotplots.pdf)
 
-![独立聚类标记基因点图](../results/figures/04_marker_dotplots_by_cluster.png)
+[图 7：独立聚类标记基因点图 PDF](../results/figures/04_marker_dotplots_by_cluster.pdf)
 
-![标记基因空间表达](../results/figures/05_marker_spatial.png)
+[图 8：标记基因空间表达 PDF](../results/figures/05_marker_spatial.pdf)
 
 图 6–8. 论文 Table S1-5 标记在作者区域和独立聚类中的表达，以及逐基因空间分布。
 标记的 locus ID 同时通过 Mt5.0 官方注释核对；比例尺为 300 µm。
@@ -144,20 +144,20 @@ NMI 为 **0.300**，说明单切片表达聚类与整合了更多样本和人工
 | Proximal infection zone | MtrunA17Chr2g0300911 | MtNodGRP2A | 11.170 | 3.717 | 0.000 |
 | Proximal infection zone | MtrunA17Chr2g0300901 | MtNodGRP11 | 11.099 | 3.165 | 0.000 |
 | Nitrogen fixation zone | MtrunA17Chr7g0224291 | MtNCR158 | 6.102 | 1.804 | 0.000 |
-| Nitrogen fixation zone | MtrunA17Chr5g0427351 | MtLb2|MtLb6|MtLb1 | 5.643 | 1.275 | 0.000 |
-| Nitrogen fixation zone | MtrunA17Chr1g0148751 | MtLb4|MtLb1|MtLb2 | 5.322 | 1.486 | 0.001 |
+| Nitrogen fixation zone | MtrunA17Chr5g0427351 | MtLb2\|MtLb6\|MtLb1 | 5.643 | 1.275 | 0.000 |
+| Nitrogen fixation zone | MtrunA17Chr1g0148751 | MtLb4\|MtLb1\|MtLb2 | 5.322 | 1.486 | 0.001 |
 | Distal infection zone | MtrunA17Chr2g0311901 | MtNodGRP3C | 17.599 | 3.494 | 0.000 |
 | Distal infection zone | MtrunA17Chr7g0224291 | MtNCR158 | 17.086 | 3.208 | 0.000 |
-| Distal infection zone | MtrunA17Chr3g0100391 | MtNOD25|MtN22 | 16.569 | 2.274 | 0.000 |
+| Distal infection zone | MtrunA17Chr3g0100391 | MtNOD25\|MtN22 | 16.569 | 2.274 | 0.000 |
 | Interzone | MtrunA17Chr2g0311901 | MtNodGRP3C | 7.079 | 2.218 | 0.000 |
 | Interzone | MtrunA17Chr7g0224291 | MtNCR158 | 6.823 | 2.002 | 0.000 |
-| Interzone | MtrunA17Chr5g0427351 | MtLb2|MtLb6|MtLb1 | 6.141 | 1.571 | 0.000 |
+| Interzone | MtrunA17Chr5g0427351 | MtLb2\|MtLb6\|MtLb1 | 6.141 | 1.571 | 0.000 |
 
 这一结果用于说明后续区域发现流程，而不是独立验证实验功能。
 
 ### 4. 植物–根瘤菌共检测
 
-![根瘤菌计数占比](../results/figures/06_rhizobia_fraction.png)
+[图 9：根瘤菌计数占比 PDF](../results/figures/06_rhizobia_fraction.pdf)
 
 | 区域 | bin 数 | 中位占比 | Q1 | Q3 | 中位总计数 |
 | --- | --- | --- | --- | --- | --- |

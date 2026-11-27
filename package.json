@@ -1,0 +1,9 @@
+{
+  "name": "medicago-spatial-reproduction-report",
+  "version": "0.1.0",
+  "private": true,
+  "description": "DOCX report builder for the Medicago spatial transcriptomics reproduction",
+  "dependencies": {
+    "docx": "9.15.4"
+  }
+}

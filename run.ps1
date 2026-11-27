@@ -13,6 +13,9 @@ if (-not (Test-Path ".venv\Scripts\python.exe")) {
 }
 
 uv sync --frozen
+if (-not (Test-Path "node_modules\docx")) {
+    npm install --silent --omit=dev
+}
 & ".venv\Scripts\python.exe" -m ipykernel install --prefix .venv --name medicago-cds --display-name "Python (Medicago CDS)" | Out-Null
 
 if (-not $SkipDownload) {
@@ -26,5 +29,9 @@ if (-not $SkipNotebook) {
 }
 
 & ".venv\Scripts\python.exe" "scripts\build_report.py"
+& ".venv\Scripts\python.exe" "scripts\render_pdf_previews.py"
+$env:NODE_PATH = (Join-Path $projectRoot "node_modules")
+& node "scripts\build_docx_report.js"
+& ".venv\Scripts\python.exe" "scripts\validate_docx_report.py"
 & ".venv\Scripts\python.exe" "scripts\validate_results.py"
 

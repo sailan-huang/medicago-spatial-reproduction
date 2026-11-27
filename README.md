@@ -9,9 +9,9 @@
 [论文 DOI](https://doi.org/10.1016/j.cell.2026.07.033) ·
 [公开数据](https://db.cngb.org/stomics/stamrn/download/) ·
 [作者代码](https://github.com/XiangSH111/Legume_Spatial_Atlas) ·
-[完整复现报告](docs/analysis_report.md) ·
+[完整 Word 复现报告](docs/medicago_spatial_reproduction_report.docx) ·
 [质量审查记录](docs/quality_audit.md) ·
-[Notebook HTML 预览](docs/reproduction_notebook.html)
+[Markdown 源稿](docs/analysis_report.md)
 
 ## 已完成内容
 
@@ -21,7 +21,7 @@
 - 仅使用植物基因独立完成 HVG、PCA、邻居图、UMAP 和两档 Leiden 聚类。
 - 从论文 Table S1-5 和 Mt5.0 官方注释解析区域标记，输出点图和空间图。
 - 比较独立聚类与作者组织分区，输出混淆矩阵、轮廓系数和空间邻域一致性。
-- 输出 9 组核心图（300 dpi PNG + PDF/SVG）、派生表、可执行 Notebook、报告和测试。
+- 输出 9 组核心 PDF 图、派生表、可执行 Notebook、Word 报告和测试。
 
 ## 主要结果
 
@@ -37,9 +37,11 @@
 
 这些结果说明公开数据可以支持单切片级的分析和解释，但单切片不能重现论文的完整跨阶段图谱。
 
-![独立聚类与空间定位](results/figures/03_independent_clustering.png)
+[查看核心聚类图 PDF](results/figures/03_independent_clustering.pdf)
 
 ## 快速运行
+
+依赖：Python 3.12、[uv](https://docs.astral.sh/uv/) 和 Node.js/npm。
 
 Windows PowerShell：
 
@@ -48,13 +50,15 @@ cd D:\课堂\cds
 .\run.ps1
 ```
 
-首次运行会创建 `.venv`、下载公开数据、检查 SHA-256、执行测试，并从零运行 Notebook。
+首次运行会创建 `.venv`、安装锁定的 Python 与 Node 依赖、下载公开数据、
+检查 SHA-256、执行测试、从零运行 Notebook，并生成 Word 报告。
 
 手动运行：
 
 ```powershell
 uv venv .venv --python 3.12
 uv pip install -r requirements.txt
+npm install
 .\.venv\Scripts\python.exe scripts\download_data.py
 .\.venv\Scripts\python.exe -m pytest -q
 .\.venv\Scripts\python.exe -c "from analysis.reproduction import run_analysis; run_analysis()"
@@ -72,7 +76,9 @@ results/figures/           核心结果图
 results/tables/            bin 级结果、聚类指标、标记与区域汇总量
 scripts/                  下载、报告生成与结果验证脚本
 tests/                    输入契约和数据守恒测试
-docs/analysis_report.md   完整方法、结果、对照与局限
+docs/medicago_spatial_reproduction_report.docx
+                          完整方法、结果、图表、对照与局限
+docs/analysis_report.md   Word 报告的 Markdown 源稿
 ```
 
 ## 复现边界

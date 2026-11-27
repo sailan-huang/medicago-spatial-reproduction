@@ -27,7 +27,7 @@
 - 坐标、组织标签、基因 ID 和计数守恒检查均通过。
 - 根瘤菌占比必须在总测序深度背景下解释。
 
-建议配图：`results/figures/01_qc_overview.png`。
+建议配图：`results/figures/01_qc_overview.pdf`。
 
 ### 3. 独立聚类
 
@@ -40,8 +40,8 @@
 
 建议配图：
 
-- `results/figures/03_independent_clustering.png`
-- `results/figures/03b_cluster_annotation_confusion.png`
+- `results/figures/03_independent_clustering.pdf`
+- `results/figures/03b_cluster_annotation_confusion.pdf`
 
 ### 4. 标记基因
 
@@ -54,8 +54,8 @@
 
 建议配图：
 
-- `results/figures/04_marker_dotplots.png`
-- `results/figures/05_marker_spatial.png`
+- `results/figures/04_marker_dotplots.pdf`
+- `results/figures/05_marker_spatial.pdf`
 
 ### 5. 植物–根瘤菌共检测
 
@@ -66,7 +66,7 @@
 - 比例受测序深度、RNA 组成和捕获效率影响，不是细菌数量或固氮效率。
 - 区域统计检验仅作描述性辅助，空间 bin 不是独立生物学重复。
 
-建议配图：`results/figures/06_rhizobia_fraction.png`。
+建议配图：`results/figures/06_rhizobia_fraction.pdf`。
 
 ### 6. 总结
 

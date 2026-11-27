@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 import pandas as pd
-from PIL import Image
+from pypdf import PdfReader
 
 ROOT = Path(__file__).resolve().parents[1]
 TABLES = ROOT / "results" / "tables"
@@ -26,15 +26,22 @@ REQUIRED_FIGURE_STEMS = [
 
 def validate() -> None:
     for stem in REQUIRED_FIGURE_STEMS:
-        for suffix in (".png", ".pdf", ".svg"):
-            path = FIGURES / f"{stem}{suffix}"
-            if not path.exists() or path.stat().st_size == 0:
-                raise AssertionError(f"Missing or empty figure: {path}")
-        with Image.open(FIGURES / f"{stem}.png") as image:
-            if min(image.size) < 800:
-                raise AssertionError(
-                    f"Figure has unexpectedly low pixel dimensions: {stem} {image.size}"
-                )
+        path = FIGURES / f"{stem}.pdf"
+        if not path.exists() or path.stat().st_size == 0:
+            raise AssertionError(f"Missing or empty PDF figure: {path}")
+        if len(PdfReader(path).pages) != 1:
+            raise AssertionError(f"Figure PDF must contain one page: {path}")
+
+    unexpected = [
+        path
+        for path in FIGURES.iterdir()
+        if path.is_file() and path.suffix.lower() != ".pdf"
+    ]
+    if unexpected:
+        raise AssertionError(
+            "Non-PDF files remain in results/figures: "
+            + ", ".join(str(path.name) for path in unexpected)
+        )
 
     metadata = json.loads((TABLES / "run_metadata.json").read_text(encoding="utf-8"))
     assert metadata["input_dimensions"]["bins"] == 1284
@@ -78,7 +85,7 @@ def validate() -> None:
         "Validated:",
         {
             "figures": len(REQUIRED_FIGURE_STEMS),
-            "formats_per_figure": 3,
+            "figure_format": "PDF only",
             "bins": len(bins),
             "markers": len(markers),
             "statistical_tests": len(stats),

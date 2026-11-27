@@ -108,20 +108,14 @@ def configure_publication_style() -> None:
     )
 
 
-def save_figure(fig: plt.Figure, png_path: Path) -> None:
-    png_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(png_path, dpi=PAPER_DPI, bbox_inches="tight", facecolor="white")
+def save_figure(fig: plt.Figure, figure_path: Path) -> None:
+    pdf_path = figure_path.with_suffix(".pdf")
+    pdf_path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(
-        png_path.with_suffix(".pdf"),
+        pdf_path,
         bbox_inches="tight",
         facecolor="white",
         metadata={"CreationDate": None, "ModDate": None},
-    )
-    fig.savefig(
-        png_path.with_suffix(".svg"),
-        bbox_inches="tight",
-        facecolor="white",
-        metadata={"Date": None},
     )
 
 
@@ -1489,8 +1483,8 @@ def run_analysis(config_path: Path | None = None) -> dict[str, Any]:
     adata = load_and_validate(sample_path)
     adata = add_qc_metrics(adata)
     LOGGER.info("Writing QC figures")
-    plot_qc_overview(adata, paths.figure_dir / "01_qc_overview.png")
-    plot_annotation_and_depth(adata, paths.figure_dir / "02_annotation_and_depth.png")
+    plot_qc_overview(adata, paths.figure_dir / "01_qc_overview.pdf")
+    plot_annotation_and_depth(adata, paths.figure_dir / "02_annotation_and_depth.pdf")
 
     LOGGER.info("Preparing plant-only independent clustering")
     plant, _ = prepare_plant_analysis(adata, config)
@@ -1500,19 +1494,19 @@ def run_analysis(config_path: Path | None = None) -> dict[str, Any]:
         plant,
         normalization_gene["gene_id"],
         normalization_gene["symbol"],
-        paths.figure_dir / "01b_normalization_contrast.png",
+        paths.figure_dir / "01b_normalization_contrast.pdf",
     )
     LOGGER.info("Writing clustering comparison")
     metrics = plot_clustering(
         plant,
         config,
-        paths.figure_dir / "03_independent_clustering.png",
+        paths.figure_dir / "03_independent_clustering.pdf",
         paths.table_dir / "clustering_metrics.json",
     )
     plot_cluster_confusion(
         plant,
         config,
-        paths.figure_dir / "03b_cluster_annotation_confusion.png",
+        paths.figure_dir / "03b_cluster_annotation_confusion.pdf",
     )
     rank_region_markers(
         plant,
@@ -1539,15 +1533,15 @@ def run_analysis(config_path: Path | None = None) -> dict[str, Any]:
         plant,
         marker_table,
         config,
-        paths.figure_dir / "04_marker_dotplots.png",
-        paths.figure_dir / "05_marker_spatial.png",
+        paths.figure_dir / "04_marker_dotplots.pdf",
+        paths.figure_dir / "05_marker_spatial.pdf",
         paths.table_dir / "marker_specificity.csv",
     )
 
     LOGGER.info("Analyzing host-rhizobium co-detection")
     rhizobia_summary = plot_rhizobia_analysis(
         adata,
-        paths.figure_dir / "06_rhizobia_fraction.png",
+        paths.figure_dir / "06_rhizobia_fraction.pdf",
         paths.table_dir / "rhizobia_by_region.csv",
         paths.table_dir / "rhizobia_statistics.csv",
     )

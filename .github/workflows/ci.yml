@@ -19,6 +19,11 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
       - name: Set up uv
         uses: astral-sh/setup-uv@v6
         with:
@@ -26,6 +31,9 @@ jobs:
 
       - name: Install locked environment
         run: uv sync --frozen
+
+      - name: Install report builder
+        run: npm ci
 
       - name: Lint
         run: uvx ruff check analysis scripts tests
@@ -40,5 +48,8 @@ jobs:
         run: |
           uv run python -m analysis.reproduction
           uv run python scripts/build_report.py
+          uv run python scripts/render_pdf_previews.py
+          node scripts/build_docx_report.js
+          uv run python scripts/validate_docx_report.py
           uv run python scripts/validate_results.py
 

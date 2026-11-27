@@ -17,7 +17,7 @@ import os
 import sys
 
 import pandas as pd
-from IPython.display import Image, Markdown, display
+from IPython.display import Markdown, display
 
 project_root = Path.cwd()
 if project_root.name == "notebooks":
@@ -83,6 +83,11 @@ display(
 display(Markdown("作者补充表 S1-3 报告的同一样本信息："))
 display(sample_reference)
 
+
+def show_pdf_figure(path: Path) -> None:
+    relative = path.resolve().relative_to(Path.cwd().resolve())
+    display(Markdown(f"[打开矢量 PDF 图：{path.stem}]({relative.as_posix()})"))
+
 # %% [markdown]
 # ## 1. 输入契约与质量检查
 #
@@ -105,15 +110,15 @@ integrity = {
 }
 display(Markdown("\n".join(f"- **{key}**：{value:,}" for key, value in integrity.items())))
 
-plot_qc_overview(adata, paths.figure_dir / "01_qc_overview.png")
-display(Image(filename=str(paths.figure_dir / "01_qc_overview.png")))
+plot_qc_overview(adata, paths.figure_dir / "01_qc_overview.pdf")
+show_pdf_figure(paths.figure_dir / "01_qc_overview.pdf")
 
 # %%
 plot_annotation_and_depth(
     adata,
-    paths.figure_dir / "02_annotation_and_depth.png",
+    paths.figure_dir / "02_annotation_and_depth.pdf",
 )
-display(Image(filename=str(paths.figure_dir / "02_annotation_and_depth.png")))
+show_pdf_figure(paths.figure_dir / "02_annotation_and_depth.pdf")
 
 # %% [markdown]
 # ## 2. 独立聚类与空间定位
@@ -131,31 +136,25 @@ plot_normalization_contrast(
     plant,
     normalization_gene["gene_id"],
     normalization_gene["symbol"],
-    paths.figure_dir / "01b_normalization_contrast.png",
+    paths.figure_dir / "01b_normalization_contrast.pdf",
 )
-display(Image(filename=str(paths.figure_dir / "01b_normalization_contrast.png")))
+show_pdf_figure(paths.figure_dir / "01b_normalization_contrast.pdf")
 
 metrics = plot_clustering(
     plant,
     config,
-    paths.figure_dir / "03_independent_clustering.png",
+    paths.figure_dir / "03_independent_clustering.pdf",
     paths.table_dir / "clustering_metrics.json",
 )
-display(Image(filename=str(paths.figure_dir / "03_independent_clustering.png")))
+show_pdf_figure(paths.figure_dir / "03_independent_clustering.pdf")
 display(Markdown("```json\n" + str(metrics) + "\n```"))
 
 plot_cluster_confusion(
     plant,
     config,
-    paths.figure_dir / "03b_cluster_annotation_confusion.png",
+    paths.figure_dir / "03b_cluster_annotation_confusion.pdf",
 )
-display(
-    Image(
-        filename=str(
-            paths.figure_dir / "03b_cluster_annotation_confusion.png"
-        )
-    )
-)
+show_pdf_figure(paths.figure_dir / "03b_cluster_annotation_confusion.pdf")
 display(
     Markdown(
         "除 ARI/NMI 外，本流程还计算 PCA 空间中的 silhouette 分数和空间 6-近邻"
@@ -197,20 +196,14 @@ marker_summary = plot_marker_genes(
     plant,
     marker_table,
     config,
-    paths.figure_dir / "04_marker_dotplots.png",
-    paths.figure_dir / "05_marker_spatial.png",
+    paths.figure_dir / "04_marker_dotplots.pdf",
+    paths.figure_dir / "05_marker_spatial.pdf",
     paths.table_dir / "marker_specificity.csv",
 )
 display(marker_summary)
-display(Image(filename=str(paths.figure_dir / "04_marker_dotplots.png")))
-display(
-    Image(
-        filename=str(
-            paths.figure_dir / "04_marker_dotplots_by_cluster.png"
-        )
-    )
-)
-display(Image(filename=str(paths.figure_dir / "05_marker_spatial.png")))
+show_pdf_figure(paths.figure_dir / "04_marker_dotplots.pdf")
+show_pdf_figure(paths.figure_dir / "04_marker_dotplots_by_cluster.pdf")
+show_pdf_figure(paths.figure_dir / "05_marker_spatial.pdf")
 
 # %% [markdown]
 # ## 4. 植物–根瘤菌信号
@@ -228,12 +221,12 @@ display(Image(filename=str(paths.figure_dir / "05_marker_spatial.png")))
 # %%
 rhizobia_summary = plot_rhizobia_analysis(
     adata,
-    paths.figure_dir / "06_rhizobia_fraction.png",
+    paths.figure_dir / "06_rhizobia_fraction.pdf",
     paths.table_dir / "rhizobia_by_region.csv",
     paths.table_dir / "rhizobia_statistics.csv",
 )
 display(rhizobia_summary)
-display(Image(filename=str(paths.figure_dir / "06_rhizobia_fraction.png")))
+show_pdf_figure(paths.figure_dir / "06_rhizobia_fraction.pdf")
 display(pd.read_csv(paths.table_dir / "rhizobia_statistics.csv"))
 
 # %%
